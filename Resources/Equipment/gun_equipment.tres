@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://b0m8e7b1qdaai"]
+
+[ext_resource type="Script" uid="uid://cwq26kphelbb5" path="res://Resources/Equipment/equipment.gd" id="1_f6yj6"]
+
+[resource]
+script = ExtResource("1_f6yj6")
+equipment_name = "gun"
+sprite_offsets = Dictionary[String, Vector2]({
+"attack_down": Vector2(0, 8),
+"attack_left": Vector2(-6, 5),
+"attack_right": Vector2(8, 4),
+"attack_up": Vector2(0, -7),
+"idle_down": Vector2(0, 8),
+"idle_left": Vector2(-6, 5),
+"idle_right": Vector2(8, 4),
+"idle_up": Vector2(0, -7)
+})
+muzzle_positions = Dictionary[String, Vector2]({
+"down": Vector2(0.5, 15),
+"left": Vector2(-13, 2.5),
+"right": Vector2(16, 2.5),
+"up": Vector2(0, -15)
+})
+metadata/_custom_type_script = "uid://cwq26kphelbb5"
