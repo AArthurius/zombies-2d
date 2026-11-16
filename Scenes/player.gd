@@ -9,7 +9,7 @@ extends CharacterBody2D
 @onready var attack_timer: Timer = $AttackTimer
 @onready var attack_component: AttackComponent = $AttackComponent
 @onready var health_component: HealthComponent = $HealthComponent
-@onready var health_bar: TextureProgressBar = $HealthBar
+@onready var health_bar: BarComponent = $HealthBar
 
 enum STATE {IDLE, RUN, PICKUP, DEAD} # estados
 
@@ -20,8 +20,7 @@ func _ready() -> void:
 	# O equipamento atual precisa ser uma cópia para não alterar outros do mesmo tipo
 	current_equipment = current_equipment.duplicate()
 	current_equipment.current_ammo = current_equipment.max_ammo
-	health_bar.max_value = health_component.max_health
-	health_bar.value = health_component.current_health
+	health_bar.change_max(health_component.max_health)
 
 func _process(_delta: float) -> void:
 	if current_equipment.follow_mouse and current_state != STATE.DEAD:
@@ -117,13 +116,8 @@ func _on_input_component_interact_pressed() -> void:
 	if current_state == STATE.DEAD:
 		return
 
-var health_tween: Tween
-
 func _on_health_component_health_changed(current_health: Variant) -> void:
-	if health_tween:
-		health_tween.kill()
-	health_tween = create_tween()
-	health_tween.tween_property(health_bar, "value", current_health, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	health_bar.change_value(current_health)
 
 func _on_health_component_dead() -> void:
 	current_state = STATE.DEAD

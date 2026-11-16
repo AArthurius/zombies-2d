@@ -11,9 +11,15 @@
 [ext_resource type="Script" uid="uid://bqp4a7dbi7lwi" path="res://Components/health_component.gd" id="9_gymyn"]
 [ext_resource type="Texture2D" uid="uid://dhewlpu5qcuqq" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP-Bar_Small.png" id="9_tx1dd"]
 [ext_resource type="Texture2D" uid="uid://da4ifcva524h1" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP_Small.png" id="10_gymyn"]
+[ext_resource type="Script" uid="uid://cgugqatvam5e5" path="res://Components/health_bar_component.gd" id="12_pu2lt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxrlw"]
 radius = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pu2lt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukyrk"]
+bg_color = Color(0.8961011, 0.8419429, 0.7924571, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_khhxn"]
 size = Vector2(12, 16)
@@ -64,7 +70,7 @@ metadata/_custom_type_script = "uid://bqp4a7dbi7lwi"
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_qxrlw")
 
-[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=225432285]
+[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=1412377678 node_paths=PackedStringArray("sub_health_bar")]
 z_index = 10
 anchors_preset = 5
 anchor_left = 0.5
@@ -75,10 +81,31 @@ offset_right = 26.0
 offset_bottom = -18.0
 grow_horizontal = 2
 max_value = 50.0
-value = 50.0
+value = 44.0
 texture_over = ExtResource("9_tx1dd")
 texture_progress = ExtResource("10_gymyn")
 texture_progress_offset = Vector2(8, 5)
+script = ExtResource("12_pu2lt")
+sub_health_bar = NodePath("SubHealthBar")
+metadata/_custom_type_script = "uid://cgugqatvam5e5"
+
+[node name="SubHealthBar" type="ProgressBar" parent="HealthBar" unique_id=1347865151]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = -2.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_pu2lt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ukyrk")
+max_value = 50.0
+value = 50.0
+show_percentage = false
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=779266981]
 
