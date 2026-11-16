@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://sidwlaxgjc1w"]
 
 [ext_resource type="Script" uid="uid://cwq26kphelbb5" path="res://Resources/Equipment/equipment.gd" id="1_ndp6v"]
+[ext_resource type="SpriteFrames" uid="uid://dvaqkr5l61nlm" path="res://Resources/SpriteFrames/pistol_frames.tres" id="2_hiam7"]
 
 [resource]
 script = ExtResource("1_ndp6v")
+sprite_frames = ExtResource("2_hiam7")
 behind_if_up = false
 equipment_name = "pistol"
+attack_cd = 1
 metadata/_custom_type_script = "uid://cwq26kphelbb5"

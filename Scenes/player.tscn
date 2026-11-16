@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://uf1aa6qqm4wl"]
+
+[ext_resource type="Script" uid="uid://bbwqbx4hw14c4" path="res://Scenes/player.gd" id="1_3smsa"]
+[ext_resource type="Resource" uid="uid://b0m8e7b1qdaai" path="res://Resources/Equipment/gun_equipment.tres" id="2_8erm5"]
+[ext_resource type="SpriteFrames" uid="uid://cthi8ux3t0yf2" path="res://Resources/SpriteFrames/character_body.tres" id="3_f1ek2"]
+[ext_resource type="Script" uid="uid://cqleh27fxjpla" path="res://Components/anim_component.gd" id="4_tx1dd"]
+[ext_resource type="SpriteFrames" uid="uid://cj23oqwk58g13" path="res://Resources/SpriteFrames/gun_frames.tres" id="5_gymyn"]
+[ext_resource type="Script" uid="uid://1748quqv7gai" path="res://Components/input_component.gd" id="6_pu2lt"]
+[ext_resource type="Script" uid="uid://hnc52yr504ty" path="res://Components/mov_component.gd" id="7_ukyrk"]
+[ext_resource type="Script" uid="uid://cve6xeaclt0fa" path="res://Components/attack_component.gd" id="8_8erm5"]
+[ext_resource type="Script" uid="uid://bqp4a7dbi7lwi" path="res://Components/health_component.gd" id="9_gymyn"]
+[ext_resource type="Texture2D" uid="uid://dhewlpu5qcuqq" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP-Bar_Small.png" id="9_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://da4ifcva524h1" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP_Small.png" id="10_gymyn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qxrlw"]
+radius = 4.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_khhxn"]
+size = Vector2(12, 16)
+
+[node name="Player" type="CharacterBody2D" unique_id=88828092]
+script = ExtResource("1_3smsa")
+current_equipment = ExtResource("2_8erm5")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=724774677]
+one_shot = true
+
+[node name="AnimBody" type="AnimatedSprite2D" parent="." unique_id=223611304]
+sprite_frames = ExtResource("3_f1ek2")
+animation = &"idle_down"
+autoplay = "idle_down"
+script = ExtResource("4_tx1dd")
+metadata/_custom_type_script = "uid://cqleh27fxjpla"
+
+[node name="AnimHands" type="AnimatedSprite2D" parent="." unique_id=1350990860]
+sprite_frames = ExtResource("5_gymyn")
+animation = &"reload_right"
+frame = 7
+frame_progress = 1.0
+script = ExtResource("4_tx1dd")
+metadata/_custom_type_script = "uid://cqleh27fxjpla"
+
+[node name="Muzzle" type="Marker2D" parent="AnimHands" unique_id=565106815]
+position = Vector2(1, 18)
+gizmo_extents = 2.0
+
+[node name="InputComponent" type="Node" parent="." unique_id=1368352750]
+script = ExtResource("6_pu2lt")
+metadata/_custom_type_script = "uid://1748quqv7gai"
+
+[node name="MovComponent" type="Node" parent="." unique_id=30591176]
+script = ExtResource("7_ukyrk")
+metadata/_custom_type_script = "uid://hnc52yr504ty"
+
+[node name="AttackComponent" type="Node" parent="." unique_id=1172340568]
+script = ExtResource("8_8erm5")
+metadata/_custom_type_script = "uid://cve6xeaclt0fa"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=435092081]
+script = ExtResource("9_gymyn")
+metadata/_custom_type_script = "uid://bqp4a7dbi7lwi"
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=507409210]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_qxrlw")
+
+[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=225432285]
+z_index = 10
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.0
+offset_top = -28.0
+offset_right = 26.0
+offset_bottom = -18.0
+grow_horizontal = 2
+max_value = 50.0
+value = 50.0
+texture_over = ExtResource("9_tx1dd")
+texture_progress = ExtResource("10_gymyn")
+texture_progress_offset = Vector2(8, 5)
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=779266981]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=519889571]
+shape = SubResource("RectangleShape2D_khhxn")
+
+[connection signal="animation_finished" from="AnimHands" to="." method="_on_anim_hands_animation_finished"]
+[connection signal="dir_changed" from="InputComponent" to="." method="_on_input_component_dir_changed"]
+[connection signal="interact_pressed" from="InputComponent" to="." method="_on_input_component_interact_pressed"]
+[connection signal="reload_pressed" from="InputComponent" to="." method="_on_input_component_reload_pressed"]
+[connection signal="shoot_held" from="InputComponent" to="." method="_on_input_component_shoot_held"]
+[connection signal="shoot_pressed" from="InputComponent" to="." method="_on_input_component_shoot_pressed"]
+[connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

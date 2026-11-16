@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://kj6jm7ivjh1d"]
+
+[ext_resource type="Script" uid="uid://cywqeg0kcy2j1" path="res://Scenes/bullet.gd" id="1_oduel"]
+[ext_resource type="Texture2D" uid="uid://drdpwapbn6sqx" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Bullets/Gun-bullet_Bullet.png" id="1_xjght"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1fef"]
+size = Vector2(2, 1)
+
+[node name="Bullet" type="CharacterBody2D" unique_id=208315027]
+collision_layer = 8
+collision_mask = 20
+script = ExtResource("1_oduel")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=13623796]
+texture = ExtResource("1_xjght")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=183855330]
+shape = SubResource("RectangleShape2D_s1fef")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1372734383]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=618486679]
+shape = SubResource("RectangleShape2D_s1fef")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

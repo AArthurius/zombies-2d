@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bgkknrjqlicbb"]
 
-[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://player.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://Scenes/player.tscn" id="1_80nbo"]
 
 [node name="Game" type="Node2D" unique_id=2099470895]
 
 [node name="Player" parent="." unique_id=88828092 instance=ExtResource("1_80nbo")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1475964668]
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=1725689257]

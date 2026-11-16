@@ -1,10 +1,22 @@
 extends Resource
 class_name Equipment
 
+@export var sprite_frames: SpriteFrames = SpriteFrames.new()
 @export var behind_if_up: bool = true # algumas animações tem q ficar com visibility layer -1 na animação up pra ficar atrás do player
 @export var run_equals_idle: bool = true
 @export var follow_mouse: bool = true
 @export var equipment_name: String = "free"
+@export var is_automatic: bool = false
+@export var attack_cd: float = 1 # cooldown total pra atirar, coloca isso em um timer se maior que 1
+@export var damage: int = 5  
+@export var projectile_scene: PackedScene # a prefab de bala
+@export var reload_time: float = -1 # quantos segundos leva pra recarregar
+@export var max_ammo: int = -1 :# se ammo for menor que zero não precisa de munição
+	set(value):
+		max_ammo = value
+		current_ammo = value  
+
+var current_ammo: int = 0
 
 @export var sprite_offsets: Dictionary[String, Vector2] = {
 	"idle_down" : Vector2(0, 0),
@@ -15,6 +27,10 @@ class_name Equipment
 	"attack_left" : Vector2(0, 0),
 	"attack_right" : Vector2(0, 0),
 	"attack_up" : Vector2(0, 0),
+	"reload_down" : Vector2(0, 0),
+	"reload_left" : Vector2(0, 0),
+	"reload_right" : Vector2(0, 0),
+	"reload_up" : Vector2(0, 0)
 	}
 
 @export var muzzle_positions: Dictionary[String, Vector2] = { 
@@ -24,12 +40,15 @@ class_name Equipment
 	"up": Vector2.ZERO,   # se fizesse sem trocar o sprite e só girar a arma não precisaria
 }
 
+func _init() -> void:
+	current_ammo = max_ammo
+
 #retorna o nome de uma animação baseado no equipment
 #ex: se anim_suffix = idle_down e equipment = free retorna free_idle_down
-func get_full_anim_name(anim_suffix: String) -> String:
+func get_anim_name(anim_suffix: String) -> String:
 	if anim_suffix == "run" and run_equals_idle: # se as animações de equipamento idle e run são as mesmas
 		anim_suffix = "idle"
-	return equipment_name + "_" + anim_suffix
+	return anim_suffix
 
 # retorna o offset de uma direção
 # ex: se anim_suffix = idle_down retorna o offset de free_idle_down
@@ -41,3 +60,7 @@ func get_offset(anim_suffix: String) -> Vector2:
 
 func get_muzzle_pos(cardinal: String) -> Vector2:
 	return muzzle_positions.get(cardinal, Vector2.ZERO)
+
+func reload():
+	if max_ammo > 0:
+		current_ammo = max_ammo
