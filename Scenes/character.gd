@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Character
 
-@export var current_equipment: Equipment = Equipment.new()
+@export var current_equipment: Equipment 
 @onready var controller_component: ControllerComponent = $ControllerComponent
 @onready var mov_component: MovComponent = $MovComponent
 @onready var anim_body: AnimComponent = $AnimBody
@@ -77,14 +77,25 @@ func _process(_delta: float) -> void:
 func _is_hands_busy() -> bool:
 	if not anim_hands.is_playing() or anim_hands.animation == "":
 		return false
-	var current_action: String = anim_hands.animation.rsplit("_", true, 1)[0]
-	return current_action == current_equipment.get_anim_name("attack") or current_action == current_equipment.get_anim_name("reload")
+	var current_action: String = anim_hands.animation.rsplit("_", true, 1)[0] # nome da atuão ação(animação)
+	return current_action in [ # se estiver no array retorna true e mãos estão ocupadas
+		current_equipment.get_anim_name("attack"),
+		current_equipment.get_anim_name("reload"),
+		"reload_start",
+		"reload_end"
+	]
 
 func _try_shoot() -> bool:
-	if current_state == STATE.DEAD or _is_hands_busy():
+	if current_state == STATE.DEAD:
 		return false
+	var current_action: String = anim_hands.animation.rsplit("_", true, 1)[0] if anim_hands.is_playing() else ""
+	var can_interrupt_reload: bool = current_equipment.reload_one_by_one and current_equipment.current_ammo > 0 and current_action in ["reload_start", current_equipment.get_anim_name("reload")]
+	
+	if _is_hands_busy() and not can_interrupt_reload:
+		return false
+	
 	if current_equipment.current_ammo > 0 and attack_timer.is_stopped() and (current_state == STATE.IDLE or current_state == STATE.RUN):
-		attack_component.shoot(current_equipment.damage, muzzle.global_position, controller_component.aim_target, current_equipment.projectile_scene)
+		attack_component.shoot(current_equipment.damage, muzzle.global_position, controller_component.aim_target, current_equipment.projectile_texture, current_equipment.pellets, current_equipment.spread_angle)
 		attack_timer.wait_time = current_equipment.attack_cd
 		attack_timer.start()
 		anim_hands.play_anim(current_equipment.get_anim_name("attack"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
@@ -109,12 +120,16 @@ func _on_controller_component_shoot_held() -> void:
 	if current_equipment.is_automatic:
 		_try_shoot()
 
+
 func _on_controller_component_reload_pressed() -> void:
 	if current_state == STATE.DEAD or _is_hands_busy():
 		return
 	if current_equipment.current_ammo < current_equipment.max_ammo:
 		controller_component.consume_buffer(controller_component.reload_pressed)
-		anim_hands.play_anim(current_equipment.get_anim_name("reload"), current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_time)
+		var reload_type: String = "reload"
+		if current_equipment.reload_one_by_one:
+			reload_type = "reload_start"
+		anim_hands.play_anim(current_equipment.get_anim_name(reload_type), current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_time)
 
 func _on_controller_component_interact_pressed() -> void:
 	if current_state == STATE.DEAD:
@@ -128,13 +143,15 @@ func _on_health_component_dead() -> void:
 	if anim_body.cardinal == "up":
 		anim_body.cardinal = "left"
 		anim_hands.cardinal = "left"
-		if current_equipment.follow_mouse:
-			anim_hands.rotation = deg_to_rad(360)
 	elif anim_body.cardinal == "down":
 		anim_body.cardinal = "right"
 		anim_hands.cardinal = "right"
-		if current_equipment.follow_mouse:
-			anim_hands.rotation = 0
+	
+	if anim_hands.cardinal == "left":
+		anim_hands.rotation = deg_to_rad(360)
+	else:
+		anim_hands.rotation = 0.0
+	
 	anim_body.play_anim("die")
 	anim_hands.play_anim("die")
 
@@ -143,7 +160,26 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		health_component.damage(area.get_parent().damage)
 		controller_component.on_damaged()
 
+# 4. Encadeia: reload_start -> reload (1 bala por vez) -> reload_end
 func _on_anim_hands_animation_finished() -> void:
 	var finished_action: String = anim_hands.animation.rsplit("_", true, 1)[0]
-	if finished_action == current_equipment.get_anim_name("reload"):
-		current_equipment.reload()
+	if finished_action == "reload_start":
+		anim_hands.play_anim(current_equipment.get_anim_name("reload"), current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_time)
+	elif finished_action == current_equipment.get_anim_name("reload"):
+		if current_equipment.reload_one_by_one:
+			current_equipment.reload(1)
+			if current_equipment.current_ammo < current_equipment.max_ammo and current_state != STATE.DEAD:
+				anim_hands.play_anim(current_equipment.get_anim_name("reload"), current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_time)
+			else:
+				anim_hands.play_anim("reload_end", current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_end_time)
+		else:
+			current_equipment.reload(current_equipment.max_ammo)
+
+func change_equipment(new_equipment: Equipment):
+	current_equipment = new_equipment
+
+func _on_mov_component_move(new_velocity: Vector2) -> void:
+	if current_state == STATE.DEAD:
+		return
+	velocity = new_velocity
+	move_and_slide()

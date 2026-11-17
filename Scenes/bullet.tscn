@@ -4,14 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://drdpwapbn6sqx" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Bullets/Gun-bullet_Bullet.png" id="1_xjght"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s1fef"]
-size = Vector2(2, 1)
+size = Vector2(4, 4)
 
 [node name="Bullet" type="CharacterBody2D" unique_id=208315027]
+z_index = 5
 collision_layer = 8
 collision_mask = 20
 script = ExtResource("1_oduel")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=13623796]
+scale = Vector2(2, 2)
 texture = ExtResource("1_xjght")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=183855330]

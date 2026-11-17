@@ -1,9 +1,9 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://cj23oqwk58g13"]
 
-[ext_resource type="Texture2D" uid="uid://doth0sm7uac05" path="res://Assets/Adapted/Gun_down_shoot-Sheet.png" id="1_hhr7o"]
-[ext_resource type="Texture2D" uid="uid://dmrc7tcn0cydf" path="res://Assets/Adapted/Gun_side-left_shoot-Sheet.png" id="2_53nav"]
-[ext_resource type="Texture2D" uid="uid://1y3tbisg0pjl" path="res://Assets/Adapted/Gun_side_shoot-Sheet.png" id="3_rhj7b"]
-[ext_resource type="Texture2D" uid="uid://b0xlf5krdsog0" path="res://Assets/Adapted/Gun_up_shoot-Sheet.png" id="4_qfx6k"]
+[ext_resource type="Texture2D" uid="uid://doth0sm7uac05" path="res://Assets/Adapted/gun/Gun_down_shoot-Sheet.png" id="1_hhr7o"]
+[ext_resource type="Texture2D" uid="uid://dmrc7tcn0cydf" path="res://Assets/Adapted/gun/Gun_side-left_shoot-Sheet.png" id="2_53nav"]
+[ext_resource type="Texture2D" uid="uid://1y3tbisg0pjl" path="res://Assets/Adapted/gun/Gun_side_shoot-Sheet.png" id="3_rhj7b"]
+[ext_resource type="Texture2D" uid="uid://b0xlf5krdsog0" path="res://Assets/Adapted/gun/Gun_up_shoot-Sheet.png" id="4_qfx6k"]
 [ext_resource type="Texture2D" uid="uid://bbnsl23fuesam" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side-left_Death-Sheet6.png" id="5_rkbvr"]
 [ext_resource type="Texture2D" uid="uid://bl1yo2ex2vhm2" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side_Death-Sheet6.png" id="6_l3dsd"]
 [ext_resource type="Texture2D" uid="uid://cj3jrvf5m8pr5" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_down_reload-Sheet8.png" id="9_mlfx4"]

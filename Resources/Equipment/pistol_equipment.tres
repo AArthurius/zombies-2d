@@ -1,12 +1,44 @@
 [gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://sidwlaxgjc1w"]
 
+[ext_resource type="Texture2D" uid="uid://bydty2q1wmd2t" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Inventory/Objects/Icon_Pistol.png" id="1_h3x4s"]
 [ext_resource type="Script" uid="uid://cwq26kphelbb5" path="res://Resources/Equipment/equipment.gd" id="1_ndp6v"]
 [ext_resource type="SpriteFrames" uid="uid://dvaqkr5l61nlm" path="res://Resources/SpriteFrames/pistol_frames.tres" id="2_hiam7"]
+[ext_resource type="Texture2D" uid="uid://2f5k0lhgqsmu" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Bullet Indicators/Pistol-Bullet.png" id="2_lhuty"]
+[ext_resource type="Texture2D" uid="uid://cydkj6y4ilo2r" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Bullets/Pistol-bullet_Bullet.png" id="2_xbf7g"]
 
 [resource]
 script = ExtResource("1_ndp6v")
-sprite_frames = ExtResource("2_hiam7")
-behind_if_up = false
 equipment_name = "pistol"
-attack_cd = 1
+icon = ExtResource("1_h3x4s")
+pellet_icon = ExtResource("2_lhuty")
+sprite_frames = ExtResource("2_hiam7")
+is_automatic = true
+attack_cd = 0.75
+damage = 7
+spread_angle = 1.0
+projectile_texture = ExtResource("2_xbf7g")
+reload_time = 1.7
+max_ammo = 9
+sprite_offsets = Dictionary[String, Vector2]({
+"attack_down": Vector2(0, 10),
+"attack_left": Vector2(-7, 3),
+"attack_right": Vector2(7, 3),
+"attack_up": Vector2(0, -8),
+"die_left": Vector2(-1, 5),
+"die_right": Vector2(1, 5),
+"idle_down": Vector2(0, 8),
+"idle_left": Vector2(-4, 3),
+"idle_right": Vector2(4, 3),
+"idle_up": Vector2(0, -5),
+"reload_down": Vector2(4, 8),
+"reload_left": Vector2(-3, 4),
+"reload_right": Vector2(3, 4),
+"reload_up": Vector2(-5, -2)
+})
+muzzle_positions = Dictionary[String, Vector2]({
+"down": Vector2(0, 11),
+"left": Vector2(-8, 2),
+"right": Vector2(8, 2),
+"up": Vector2(0, -9)
+})
 metadata/_custom_type_script = "uid://cwq26kphelbb5"

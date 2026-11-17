@@ -1,17 +1,22 @@
 [gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://b0m8e7b1qdaai"]
 
 [ext_resource type="Script" uid="uid://cwq26kphelbb5" path="res://Resources/Equipment/equipment.gd" id="1_f6yj6"]
-[ext_resource type="PackedScene" uid="uid://kj6jm7ivjh1d" path="res://Scenes/bullet.tscn" id="1_r8tcn"]
+[ext_resource type="Texture2D" uid="uid://drpoce4jbfouh" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Inventory/Objects/Icon_Gun.png" id="1_rhiw2"]
+[ext_resource type="Texture2D" uid="uid://drdpwapbn6sqx" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Bullets/Gun-bullet_Bullet.png" id="2_rhiw2"]
 [ext_resource type="SpriteFrames" uid="uid://cj23oqwk58g13" path="res://Resources/SpriteFrames/gun_frames.tres" id="2_rwrbl"]
+[ext_resource type="Texture2D" uid="uid://hknqxa1c46ex" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Bullet Indicators/Gun-Bullet.png" id="2_ua6sj"]
 
 [resource]
 script = ExtResource("1_f6yj6")
-sprite_frames = ExtResource("2_rwrbl")
 equipment_name = "gun"
+icon = ExtResource("1_rhiw2")
+pellet_icon = ExtResource("2_ua6sj")
+sprite_frames = ExtResource("2_rwrbl")
 is_automatic = true
 attack_cd = 0.3
 damage = 15
-projectile_scene = ExtResource("1_r8tcn")
+spread_angle = 10.0
+projectile_texture = ExtResource("2_rhiw2")
 reload_time = 1.5
 max_ammo = 20
 sprite_offsets = Dictionary[String, Vector2]({
@@ -19,8 +24,8 @@ sprite_offsets = Dictionary[String, Vector2]({
 "attack_left": Vector2(-10, 4),
 "attack_right": Vector2(10, 4),
 "attack_up": Vector2(0, -7),
-"die_left": Vector2(-1, 3),
-"die_right": Vector2(1, 3),
+"die_left": Vector2(-1, 5),
+"die_right": Vector2(1, 5),
 "idle_down": Vector2(0, 8),
 "idle_left": Vector2(-6, 5),
 "idle_right": Vector2(8, 4),

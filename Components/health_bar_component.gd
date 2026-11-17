@@ -8,13 +8,18 @@ var health_tween: Tween
 var _current_duration: float = 0.0
 
 func _ready() -> void:
-	change_value(max_value)
+	value = max_value
+	if sub_health_bar:
+		sub_health_bar.max_value = max_value
+		sub_health_bar.value = value
 
 func change_max(new_max: float, add_difference: bool = true) -> void:
+	if health_tween and health_tween.is_running():
+		health_tween.kill()
 	var old_max: float = max_value
 	max_value = new_max
 	if add_difference:
-		value += new_max - old_max
+		value = clamp(value + (new_max - old_max), 0.0, new_max)
 	if sub_health_bar:
 		sub_health_bar.max_value = new_max
 		sub_health_bar.value = value

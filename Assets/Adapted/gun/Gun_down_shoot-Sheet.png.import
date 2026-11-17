@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0xlf5krdsog0"
-path="res://.godot/imported/Gun_up_shoot-Sheet.png-cebf595cede61090a3a483ad0e873c97.ctex"
+uid="uid://doth0sm7uac05"
+path="res://.godot/imported/Gun_down_shoot-Sheet.png-1b942bcb6df4a11e529e679d50a31a49.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Adapted/Gun_up_shoot-Sheet.png"
-dest_files=["res://.godot/imported/Gun_up_shoot-Sheet.png-cebf595cede61090a3a483ad0e873c97.ctex"]
+source_file="res://Assets/Adapted/gun/Gun_down_shoot-Sheet.png"
+dest_files=["res://.godot/imported/Gun_down_shoot-Sheet.png-1b942bcb6df4a11e529e679d50a31a49.ctex"]
 
 [params]
 

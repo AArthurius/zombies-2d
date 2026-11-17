@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://ddhgh3mwa0d3f"]
+
+[ext_resource type="Texture2D" uid="uid://cc5djued7w5jj" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Inventory/Objects/Icon_Shotgun.png" id="1_d6fg5"]
+[ext_resource type="Texture2D" uid="uid://dwebtrrb1n43d" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Bullet Indicators/Shotgun-Bullet.png" id="2_pojy2"]
+[ext_resource type="Texture2D" uid="uid://dikssew40qflh" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Bullets/Shotgun-bullet.png" id="2_up071"]
+[ext_resource type="Script" uid="uid://cwq26kphelbb5" path="res://Resources/Equipment/equipment.gd" id="2_vp5fd"]
+[ext_resource type="SpriteFrames" uid="uid://xd366ygwqywa" path="res://Resources/SpriteFrames/shotgun_frames.tres" id="3_vp5fd"]
+
+[resource]
+script = ExtResource("2_vp5fd")
+equipment_name = "shotgun"
+icon = ExtResource("1_d6fg5")
+pellet_icon = ExtResource("2_pojy2")
+sprite_frames = ExtResource("3_vp5fd")
+damage = 3
+pellets = 10
+spread_angle = 20.0
+projectile_texture = ExtResource("2_up071")
+reload_one_by_one = true
+max_ammo = 8
+sprite_offsets = Dictionary[String, Vector2]({
+"attack_down": Vector2(1, 11),
+"attack_left": Vector2(-6, 3),
+"attack_right": Vector2(6, 3),
+"attack_up": Vector2(1, -11),
+"die_left": Vector2(-4, 4),
+"die_right": Vector2(4, 4),
+"idle_down": Vector2(1, 7),
+"idle_left": Vector2(-4, 3),
+"idle_right": Vector2(4, 3),
+"idle_up": Vector2(1, -5),
+"reload_down": Vector2(0, 0),
+"reload_left": Vector2(0, 0),
+"reload_right": Vector2(0, 0),
+"reload_up": Vector2(0, 0)
+})
+muzzle_positions = Dictionary[String, Vector2]({
+"down": Vector2(0, 13),
+"left": Vector2(-11, 2),
+"right": Vector2(11, 1),
+"up": Vector2(0, -12)
+})
+metadata/_custom_type_script = "uid://cwq26kphelbb5"

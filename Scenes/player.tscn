@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://uf1aa6qqm4wl"]
+[gd_scene format=3 uid="uid://mpu6wg2k04qv"]
 
 [ext_resource type="Script" uid="uid://bbwqbx4hw14c4" path="res://Scenes/character.gd" id="1_l1rcp"]
-[ext_resource type="Resource" uid="uid://b0m8e7b1qdaai" path="res://Resources/Equipment/gun_equipment.tres" id="2_8erm5"]
+[ext_resource type="Resource" uid="uid://x4bfj5wtdvg8" path="res://Resources/Equipment/free_hands_equipment.tres" id="2_glx4g"]
 [ext_resource type="SpriteFrames" uid="uid://cthi8ux3t0yf2" path="res://Resources/SpriteFrames/character_body.tres" id="3_f1ek2"]
+[ext_resource type="SpriteFrames" uid="uid://xd366ygwqywa" path="res://Resources/SpriteFrames/shotgun_frames.tres" id="4_ksbbd"]
 [ext_resource type="Script" uid="uid://cqleh27fxjpla" path="res://Components/anim_component.gd" id="4_tx1dd"]
-[ext_resource type="SpriteFrames" uid="uid://cj23oqwk58g13" path="res://Resources/SpriteFrames/gun_frames.tres" id="5_gymyn"]
 [ext_resource type="Script" uid="uid://1748quqv7gai" path="res://Components/input_component.gd" id="6_pu2lt"]
 [ext_resource type="Script" uid="uid://hnc52yr504ty" path="res://Components/mov_component.gd" id="7_ukyrk"]
 [ext_resource type="Script" uid="uid://cve6xeaclt0fa" path="res://Components/attack_component.gd" id="8_8erm5"]
@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://cgugqatvam5e5" path="res://Components/health_bar_component.gd" id="12_pu2lt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxrlw"]
-radius = 4.0
+radius = 5.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pu2lt"]
 
@@ -25,29 +25,32 @@ bg_color = Color(0.8961011, 0.8419429, 0.7924571, 1)
 size = Vector2(12, 16)
 
 [node name="Player" type="CharacterBody2D" unique_id=88828092 groups=["Player"]]
+z_index = 6
 collision_mask = 17
 script = ExtResource("1_l1rcp")
-current_equipment = ExtResource("2_8erm5")
+current_equipment = ExtResource("2_glx4g")
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=724774677]
 one_shot = true
 
 [node name="AnimBody" type="AnimatedSprite2D" parent="." unique_id=223611304]
 sprite_frames = ExtResource("3_f1ek2")
-animation = &"die_right"
+animation = &"idle_left"
 autoplay = "idle_down"
 script = ExtResource("4_tx1dd")
 metadata/_custom_type_script = "uid://cqleh27fxjpla"
 
 [node name="AnimHands" type="AnimatedSprite2D" parent="." unique_id=1350990860]
-sprite_frames = ExtResource("5_gymyn")
-animation = &"die_right"
-offset = Vector2(1, 3)
+sprite_frames = ExtResource("4_ksbbd")
+animation = &"reload_end_right"
+frame = 1
+frame_progress = 1.0
+offset = Vector2(4, 4)
 script = ExtResource("4_tx1dd")
 metadata/_custom_type_script = "uid://cqleh27fxjpla"
 
 [node name="Muzzle" type="Marker2D" parent="AnimHands" unique_id=565106815]
-position = Vector2(1, 18)
+position = Vector2(0, -12)
 gizmo_extents = 2.0
 
 [node name="ControllerComponent" type="Node" parent="." unique_id=1368352750]
@@ -67,8 +70,7 @@ script = ExtResource("9_gymyn")
 metadata/_custom_type_script = "uid://bqp4a7dbi7lwi"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=507409210]
-visible = false
-position = Vector2(0, 5)
+position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_qxrlw")
 
 [node name="HealthBar" type="TextureProgressBar" parent="." unique_id=1412377678 node_paths=PackedStringArray("sub_health_bar")]
@@ -121,6 +123,7 @@ shape = SubResource("RectangleShape2D_khhxn")
 [connection signal="reload_pressed" from="ControllerComponent" to="." method="_on_controller_component_reload_pressed"]
 [connection signal="shoot_held" from="ControllerComponent" to="." method="_on_controller_component_shoot_held"]
 [connection signal="shoot_pressed" from="ControllerComponent" to="." method="_on_controller_component_shoot_pressed"]
+[connection signal="move" from="MovComponent" to="." method="_on_mov_component_move"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

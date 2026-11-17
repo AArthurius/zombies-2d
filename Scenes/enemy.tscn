@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bmmocy4ae2sxd"]
 
 [ext_resource type="Script" uid="uid://bbwqbx4hw14c4" path="res://Scenes/character.gd" id="1_1dp5w"]
-[ext_resource type="Resource" uid="uid://b0m8e7b1qdaai" path="res://Resources/Equipment/gun_equipment.tres" id="2_56vhr"]
+[ext_resource type="Resource" uid="uid://btggqoxp8dlc2" path="res://Resources/Equipment/gun_equipment_ai.tres" id="2_56vhr"]
 [ext_resource type="SpriteFrames" uid="uid://cthi8ux3t0yf2" path="res://Resources/SpriteFrames/character_body.tres" id="2_auwsv"]
 [ext_resource type="Script" uid="uid://cqleh27fxjpla" path="res://Components/anim_component.gd" id="3_8uf12"]
-[ext_resource type="SpriteFrames" uid="uid://cj23oqwk58g13" path="res://Resources/SpriteFrames/gun_frames.tres" id="4_po0sg"]
+[ext_resource type="SpriteFrames" uid="uid://dvaqkr5l61nlm" path="res://Resources/SpriteFrames/pistol_frames.tres" id="5_56vhr"]
 [ext_resource type="Script" uid="uid://hnc52yr504ty" path="res://Components/mov_component.gd" id="5_haro7"]
 [ext_resource type="Script" uid="uid://cve6xeaclt0fa" path="res://Components/attack_component.gd" id="6_56vhr"]
 [ext_resource type="Script" uid="uid://bqp4a7dbi7lwi" path="res://Components/health_component.gd" id="7_ta2yt"]
@@ -13,13 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://da4ifcva524h1" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP_Small.png" id="9_haro7"]
 [ext_resource type="Script" uid="uid://cgugqatvam5e5" path="res://Components/health_bar_component.gd" id="10_56vhr"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ta2yt"]
-radius = 4.0
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m4x7e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vt4ob"]
 bg_color = Color(0.8961011, 0.8419429, 0.7924571, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ta2yt"]
+radius = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hgeoe"]
 size = Vector2(12, 16)
@@ -32,25 +32,31 @@ height = 84.0
 radius = 40.0
 height = 126.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_56vhr"]
+font_size = 6
+
 [node name="Enemy" type="CharacterBody2D" unique_id=88369761]
+z_index = 5
+collision_mask = 17
 script = ExtResource("1_1dp5w")
 current_equipment = ExtResource("2_56vhr")
 metadata/_custom_type_script = "uid://bbwqbx4hw14c4"
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=109605987]
+one_shot = true
 
 [node name="AnimBody" type="AnimatedSprite2D" parent="." unique_id=21748041]
 sprite_frames = ExtResource("2_auwsv")
-animation = &"die_right"
+animation = &"idle_left"
 autoplay = "idle_down"
-frame = 6
-frame_progress = 1.0
 script = ExtResource("3_8uf12")
 metadata/_custom_type_script = "uid://cqleh27fxjpla"
 
 [node name="AnimHands" type="AnimatedSprite2D" parent="." unique_id=1910407438]
-sprite_frames = ExtResource("4_po0sg")
-animation = &"idle_down"
+sprite_frames = ExtResource("5_56vhr")
+animation = &"die_left"
+frame = 5
+frame_progress = 1.0
 script = ExtResource("3_8uf12")
 metadata/_custom_type_script = "uid://cqleh27fxjpla"
 
@@ -77,10 +83,6 @@ metadata/_custom_type_script = "uid://cve6xeaclt0fa"
 [node name="HealthComponent" type="Node" parent="." unique_id=1381793941]
 script = ExtResource("7_ta2yt")
 metadata/_custom_type_script = "uid://bqp4a7dbi7lwi"
-
-[node name="Collision" type="CollisionShape2D" parent="." unique_id=1219499822]
-position = Vector2(0, 5)
-shape = SubResource("CircleShape2D_ta2yt")
 
 [node name="HealthBar" type="TextureProgressBar" parent="." unique_id=500664487 node_paths=PackedStringArray("sub_health_bar")]
 z_index = 10
@@ -120,8 +122,15 @@ value = 50.0
 show_percentage = false
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=481946603]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1219499822]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_ta2yt")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=531256047]
+visible = false
 collision_layer = 2
 collision_mask = 8
 
@@ -129,6 +138,7 @@ collision_mask = 8
 shape = SubResource("RectangleShape2D_hgeoe")
 
 [node name="VisionPivot" type="Node2D" parent="." unique_id=1971433817]
+visible = false
 
 [node name="GoodVisionArea" type="Area2D" parent="VisionPivot" unique_id=1827227342]
 collision_layer = 2
@@ -152,12 +162,21 @@ shape = SubResource("CapsuleShape2D_56vhr")
 target_position = Vector2(116, 0)
 collision_mask = 16
 
+[node name="name" type="Label" parent="." unique_id=272036694]
+offset_left = -15.0
+offset_top = -33.0
+offset_right = 25.0
+offset_bottom = -24.0
+text = "Name"
+label_settings = SubResource("LabelSettings_56vhr")
+
 [connection signal="animation_finished" from="AnimHands" to="." method="_on_anim_hands_animation_finished"]
 [connection signal="dir_changed" from="ControllerComponent" to="." method="_on_controller_component_dir_changed"]
 [connection signal="interact_pressed" from="ControllerComponent" to="." method="_on_controller_component_interact_pressed"]
 [connection signal="reload_pressed" from="ControllerComponent" to="." method="_on_controller_component_reload_pressed"]
 [connection signal="shoot_held" from="ControllerComponent" to="." method="_on_controller_component_shoot_held"]
 [connection signal="shoot_pressed" from="ControllerComponent" to="." method="_on_controller_component_shoot_pressed"]
+[connection signal="move" from="MovComponent" to="." method="_on_mov_component_move"]
 [connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

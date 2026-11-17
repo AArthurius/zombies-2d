@@ -14,10 +14,10 @@ enum STATE {PATROL, INVESTIGATE, LOOK_FOR_PLAYER, HOSTILE, RETREAT, HEAL}
 @export var ideal_min_distance: float = 60.0
 @export var ideal_max_distance: float = 90.0
 @export var retreat_distance: float = 140.0
-@export var hostile_fire_interval: float = 1.2
 @export var retreat_fire_interval: float = 2.0
 
 @onready var vision_pivot: Node2D = $"../VisionPivot"
+@onready var attack_timer: Timer = $"../AttackTimer"
 
 var player: Node2D
 var current_state: STATE = STATE.PATROL
@@ -116,18 +116,14 @@ func _physics_process(delta: float) -> void:
 			if not is_instance_valid(player):
 				current_state = STATE.PATROL
 				return
-
 			player_last_seen_pos = player.global_position
 			aim_target = player.global_position
 			_combat_movement(player.global_position)
-
 			if get_parent().health_component.current_health <= get_parent().health_component.max_health * 0.5:
 				current_state = STATE.RETREAT
 				timer = 0.0
 				return
-
-			timer += delta
-			if timer >= hostile_fire_interval:
+			if attack_timer.is_stopped():
 				_try_attack_or_reload()
 				timer = 0.0
 
@@ -182,7 +178,7 @@ func _try_attack_or_reload() -> void:
 	if get_parent().current_equipment.current_ammo <= 0 and get_parent().current_equipment.max_ammo > 0:
 		reload_pressed.emit()
 	else:
-		shoot_pressed.emit()
+		shoot_held.emit()
 
 func _set_nav_target(target_pos: Vector2) -> void:
 	if nav_agent:

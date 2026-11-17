@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwpg7onfp7i2h"
-path="res://.godot/imported/Gun_side_idle-and-run-Sheet.png-84cf7c33337e5eb6e16095ea7c59d4ac.ctex"
+uid="uid://cxwulxbiwpd7x"
+path="res://.godot/imported/Shotgun_down_shoot-Sheet.png-72f01f53cdfd33ae6403fbe0325c56bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Adapted/Gun_side_idle-and-run-Sheet.png"
-dest_files=["res://.godot/imported/Gun_side_idle-and-run-Sheet.png-84cf7c33337e5eb6e16095ea7c59d4ac.ctex"]
+source_file="res://Assets/Adapted/shotgun/Shotgun_down_shoot-Sheet.png"
+dest_files=["res://.godot/imported/Shotgun_down_shoot-Sheet.png-72f01f53cdfd33ae6403fbe0325c56bf.ctex"]
 
 [params]
 

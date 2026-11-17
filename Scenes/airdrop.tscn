@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://dko2pnlp7itrg"]
+
+[ext_resource type="Script" uid="uid://c4xpfrrrgwdmr" path="res://Scenes/airdrop.gd" id="1_bgwo0"]
+[ext_resource type="Texture2D" uid="uid://drpoce4jbfouh" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/Inventory/Objects/Icon_Gun.png" id="2_6i3ws"]
+
+[sub_resource type="Animation" id="Animation_6i3ws"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ikfxh"]
+resource_name = "drop"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 0),
+"points": PackedFloat32Array(5.5, 0, 0, 0.4, -54, 0, -0.73333335, 66.5, 0.5333333, 38.5),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 0),
+"points": PackedFloat32Array(-100, 0, 0, 0.33333334, 16.666668, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jv6pk"]
+_data = {
+&"RESET": SubResource("Animation_6i3ws"),
+&"drop": SubResource("Animation_ikfxh")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s1fef"]
+radius = 8.0
+
+[node name="Airdrop" type="Area2D" unique_id=133804441]
+collision_layer = 4
+monitorable = false
+script = ExtResource("1_bgwo0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=733761029]
+libraries/ = SubResource("AnimationLibrary_jv6pk")
+autoplay = &"drop"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=259157604]
+texture = ExtResource("2_6i3ws")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1942296912]
+shape = SubResource("CircleShape2D_s1fef")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
