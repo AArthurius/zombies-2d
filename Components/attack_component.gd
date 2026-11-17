@@ -1,7 +1,7 @@
 extends Node
 class_name AttackComponent
 
-const BULLET_SPEED = 200
+const BULLET_SPEED = 400
 
 func shoot(damage: int, spawn_pos: Vector2, target_pos: Vector2, projectile: PackedScene = null) -> void:
 	assert(projectile != null, "Sem cena de projetil")

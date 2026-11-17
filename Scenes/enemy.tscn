@@ -1,0 +1,159 @@
+[gd_scene format=3 uid="uid://bmmocy4ae2sxd"]
+
+[ext_resource type="Script" uid="uid://bbwqbx4hw14c4" path="res://Scenes/character.gd" id="1_1dp5w"]
+[ext_resource type="Resource" uid="uid://b0m8e7b1qdaai" path="res://Resources/Equipment/gun_equipment.tres" id="2_56vhr"]
+[ext_resource type="SpriteFrames" uid="uid://cthi8ux3t0yf2" path="res://Resources/SpriteFrames/character_body.tres" id="2_auwsv"]
+[ext_resource type="Script" uid="uid://cqleh27fxjpla" path="res://Components/anim_component.gd" id="3_8uf12"]
+[ext_resource type="SpriteFrames" uid="uid://cj23oqwk58g13" path="res://Resources/SpriteFrames/gun_frames.tres" id="4_po0sg"]
+[ext_resource type="Script" uid="uid://hnc52yr504ty" path="res://Components/mov_component.gd" id="5_haro7"]
+[ext_resource type="Script" uid="uid://cve6xeaclt0fa" path="res://Components/attack_component.gd" id="6_56vhr"]
+[ext_resource type="Script" uid="uid://bqp4a7dbi7lwi" path="res://Components/health_component.gd" id="7_ta2yt"]
+[ext_resource type="Script" uid="uid://75rdl51cbcph" path="res://Components/ai_component.gd" id="8_haro7"]
+[ext_resource type="Texture2D" uid="uid://dhewlpu5qcuqq" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP-Bar_Small.png" id="8_po0sg"]
+[ext_resource type="Texture2D" uid="uid://da4ifcva524h1" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/UI/HP/Small/HP_Small.png" id="9_haro7"]
+[ext_resource type="Script" uid="uid://cgugqatvam5e5" path="res://Components/health_bar_component.gd" id="10_56vhr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ta2yt"]
+radius = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m4x7e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vt4ob"]
+bg_color = Color(0.8961011, 0.8419429, 0.7924571, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgeoe"]
+size = Vector2(12, 16)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qsuaf"]
+radius = 28.0
+height = 84.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_56vhr"]
+radius = 40.0
+height = 126.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=88369761]
+script = ExtResource("1_1dp5w")
+current_equipment = ExtResource("2_56vhr")
+metadata/_custom_type_script = "uid://bbwqbx4hw14c4"
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=109605987]
+
+[node name="AnimBody" type="AnimatedSprite2D" parent="." unique_id=21748041]
+sprite_frames = ExtResource("2_auwsv")
+animation = &"idle_right"
+autoplay = "idle_down"
+script = ExtResource("3_8uf12")
+metadata/_custom_type_script = "uid://cqleh27fxjpla"
+
+[node name="AnimHands" type="AnimatedSprite2D" parent="." unique_id=1910407438]
+sprite_frames = ExtResource("4_po0sg")
+animation = &"idle_down"
+script = ExtResource("3_8uf12")
+metadata/_custom_type_script = "uid://cqleh27fxjpla"
+
+[node name="Muzzle" type="Marker2D" parent="AnimHands" unique_id=1151942930]
+position = Vector2(1, 18)
+gizmo_extents = 2.0
+
+[node name="ControllerComponent" type="Node" parent="." unique_id=72207624 node_paths=PackedStringArray("nav_agent", "good_vision_area", "bad_vision_area", "obstacle_raycast")]
+script = ExtResource("8_haro7")
+nav_agent = NodePath("../NavigationAgent2D")
+good_vision_area = NodePath("../GoodVisionArea")
+bad_vision_area = NodePath("../BadVisionArea")
+obstacle_raycast = NodePath("../ObstacleRayCast")
+metadata/_custom_type_script = "uid://75rdl51cbcph"
+
+[node name="MovComponent" type="Node" parent="." unique_id=1046150137]
+script = ExtResource("5_haro7")
+metadata/_custom_type_script = "uid://hnc52yr504ty"
+
+[node name="AttackComponent" type="Node" parent="." unique_id=782704344]
+script = ExtResource("6_56vhr")
+metadata/_custom_type_script = "uid://cve6xeaclt0fa"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1381793941]
+script = ExtResource("7_ta2yt")
+metadata/_custom_type_script = "uid://bqp4a7dbi7lwi"
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1219499822]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_ta2yt")
+
+[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=500664487 node_paths=PackedStringArray("sub_health_bar")]
+z_index = 10
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.0
+offset_top = -28.0
+offset_right = 26.0
+offset_bottom = -18.0
+grow_horizontal = 2
+max_value = 50.0
+value = 50.0
+texture_over = ExtResource("8_po0sg")
+texture_progress = ExtResource("9_haro7")
+texture_progress_offset = Vector2(8, 5)
+script = ExtResource("10_56vhr")
+sub_health_bar = NodePath("SubHealthBar")
+metadata/_custom_type_script = "uid://cgugqatvam5e5"
+
+[node name="SubHealthBar" type="ProgressBar" parent="HealthBar" unique_id=186355143]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = -2.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_m4x7e")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vt4ob")
+max_value = 50.0
+value = 50.0
+show_percentage = false
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=481946603]
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=531256047]
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1951107819]
+shape = SubResource("RectangleShape2D_hgeoe")
+
+[node name="GoodVisionArea" type="Area2D" parent="." unique_id=1827227342]
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoodVisionArea" unique_id=974441996]
+position = Vector2(41, 0)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_qsuaf")
+
+[node name="BadVisionArea" type="Area2D" parent="." unique_id=1075485024]
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BadVisionArea" unique_id=919925045]
+position = Vector2(53, 0)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_56vhr")
+
+[node name="ObstacleRayCast" type="RayCast2D" parent="." unique_id=1689312514]
+target_position = Vector2(116, 0)
+collision_mask = 16
+
+[connection signal="animation_finished" from="AnimHands" to="." method="_on_anim_hands_animation_finished"]
+[connection signal="dir_changed" from="ControllerComponent" to="." method="_on_controller_component_dir_changed"]
+[connection signal="interact_pressed" from="ControllerComponent" to="." method="_on_controller_component_interact_pressed"]
+[connection signal="reload_pressed" from="ControllerComponent" to="." method="_on_controller_component_reload_pressed"]
+[connection signal="shoot_held" from="ControllerComponent" to="." method="_on_controller_component_shoot_held"]
+[connection signal="shoot_pressed" from="ControllerComponent" to="." method="_on_controller_component_shoot_pressed"]
+[connection signal="dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

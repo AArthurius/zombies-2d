@@ -1,11 +1,38 @@
 [gd_scene format=3 uid="uid://bgkknrjqlicbb"]
 
-[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://Scenes/player.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://Scenes/Player.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://bmmocy4ae2sxd" path="res://Scenes/enemy.tscn" id="2_qxrlw"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_s1fef"]
+vertices = PackedVector2Array(144.70313, 76.03125, -144.88281, 76.96094, -143.10938, -73.09375, 140.28125, -75.89844)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-153, -83, 150, -86, 155, 86, -155, 87)])
 
 [node name="Game" type="Node2D" unique_id=2099470895]
 
 [node name="Player" parent="." unique_id=88828092 instance=ExtResource("1_80nbo")]
+position = Vector2(-9, -58)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1475964668]
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=1725689257]
+
+[node name="Enemy" parent="." unique_id=88369761 instance=ExtResource("2_qxrlw")]
+position = Vector2(-102, 50)
+
+[node name="ControllerComponent" parent="Enemy" index="2" unique_id=72207624 node_paths=PackedStringArray("patrol_markers")]
+patrol_markers = [NodePath("../../Waypoint 1"), NodePath("../../Waypoint 2")]
+
+[node name="NavigationAgent2D" parent="Enemy" index="8" unique_id=481946603]
+debug_enabled = true
+
+[node name="Waypoint 1" type="Marker2D" parent="." unique_id=1034198781]
+position = Vector2(-106, 37)
+
+[node name="Waypoint 2" type="Marker2D" parent="." unique_id=775241529]
+position = Vector2(131, 38)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=832379633]
+navigation_polygon = SubResource("NavigationPolygon_s1fef")
+
+[editable path="Enemy"]

@@ -1,16 +1,12 @@
-extends Node
+extends ControllerComponent
 class_name InputComponent
 
 var buffered_inputs: Dictionary[Signal, float] = {}
 @export var buffer_time: float = 0.25
 
-signal dir_changed(dir: Vector2)
-signal shoot_pressed()
-signal shoot_held()
-signal interact_pressed()
-signal reload_pressed()
-
 func _process(delta: float) -> void:
+	aim_target = get_parent().get_global_mouse_position()
+
 	var move_dir: Vector2 = Input.get_vector("left", "right", "up", "down")
 	dir_changed.emit(move_dir)
 	

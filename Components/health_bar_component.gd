@@ -7,6 +7,9 @@ class_name BarComponent
 var health_tween: Tween
 var _current_duration: float = 0.0
 
+func _ready() -> void:
+	change_value(max_value)
+
 func change_max(new_max: float, add_difference: bool = true) -> void:
 	var old_max: float = max_value
 	max_value = new_max

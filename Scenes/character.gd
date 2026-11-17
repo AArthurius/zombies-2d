@@ -1,7 +1,8 @@
 extends CharacterBody2D
+class_name Character
 
 @export var current_equipment: Equipment = Equipment.new()
-@onready var input_component: InputComponent = $InputComponent
+@onready var controller_component: ControllerComponent = $ControllerComponent
 @onready var mov_component: MovComponent = $MovComponent
 @onready var anim_body: AnimComponent = $AnimBody
 @onready var anim_hands: AnimComponent = $AnimHands
@@ -24,19 +25,21 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if current_equipment.follow_mouse and current_state != STATE.DEAD:
-		var mouse_dir: Vector2 = (get_global_mouse_position() - global_position).normalized()
-		anim_body.change_dir(mouse_dir) # Faz o corpo olhar na direção cardinal do mouse
-		anim_hands.change_dir(mouse_dir) # Sprite muda para a direção cardinal do mouse
-		anim_hands.look_at(get_global_mouse_position()) # Gira na direção do mouse
-		
-		# Desconta a rotação base de cada sprite cardinal
-		match anim_hands.cardinal:
-			"down":
-				anim_hands.rotation -= PI / 2.0 # -90 graus
-			"left":
-				anim_hands.rotation -= PI       # -180 graus
-			"up":
-				anim_hands.rotation += PI / 2.0 # +90 graus
+		var target_pos: Vector2 = controller_component.aim_target
+		var look_dir: Vector2 = (target_pos - global_position).normalized()
+		if look_dir != Vector2.ZERO:
+			anim_body.change_dir(look_dir) # Faz o corpo olhar na direção cardinal do alvo
+			anim_hands.change_dir(look_dir) # Sprite muda para a direção cardinal do alvo
+			anim_hands.look_at(target_pos) # Gira na direção do alvo
+			
+			# Desconta a rotação base de cada sprite cardinal
+			match anim_hands.cardinal:
+				"down":
+					anim_hands.rotation -= PI / 2.0 # -90 graus
+				"left":
+					anim_hands.rotation -= PI       # -180 graus
+				"up":
+					anim_hands.rotation += PI / 2.0 # +90 graus
 	elif current_state != STATE.DEAD:
 		anim_body.change_dir(move_dir)
 		anim_hands.rotation = 0.0
@@ -53,14 +56,12 @@ func _process(_delta: float) -> void:
 			if velocity != Vector2.ZERO:
 				current_state = STATE.RUN
 			anim_body.play_anim("idle")
-			if not _is_hands_busy():
-				anim_hands.play_anim(current_equipment.get_anim_name("idle"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
+			anim_hands.play_anim(current_equipment.get_anim_name("idle"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
 		STATE.RUN:
 			if velocity == Vector2.ZERO and move_dir == Vector2.ZERO:
 				current_state = STATE.IDLE
 			anim_body.play_anim("run")
-			if not _is_hands_busy():
-				anim_hands.play_anim(current_equipment.get_anim_name("run"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
+			anim_hands.play_anim(current_equipment.get_anim_name("run"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
 		STATE.PICKUP:
 			pass
 		STATE.DEAD:
@@ -69,50 +70,43 @@ func _process(_delta: float) -> void:
 	# Atualiza a posição do cano da arma
 	muzzle.position = current_equipment.get_muzzle_pos(anim_hands.cardinal)
 
-# Retorna true enquanto uma animação pontual (attack ou reload) ainda estiver rodando
-func _is_hands_busy() -> bool:
-	if not anim_hands.is_playing() or anim_hands.animation == "":
-		return false
-	var current_action: String = anim_hands.animation.rsplit("_", true, 1)[0]
-	return current_action == current_equipment.get_anim_name("attack") or current_action == current_equipment.get_anim_name("reload")
-
-func _try_shoot() -> bool:
-	if current_state == STATE.DEAD or _is_hands_busy():
-		return false
-	if current_equipment.current_ammo > 0 and attack_timer.is_stopped() and (current_state == STATE.IDLE or current_state == STATE.RUN):
-		attack_component.shoot(current_equipment.damage, muzzle.global_position, get_global_mouse_position(), current_equipment.projectile_scene)
-		attack_timer.wait_time = current_equipment.attack_cd
-		attack_timer.start()
-		anim_hands.play_anim(current_equipment.get_anim_name("attack"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
-		current_equipment.current_ammo -= 1
-		return true
-	elif current_equipment.current_ammo == 0 and current_equipment.max_ammo > 0:
-		print("sem munição")
-		return true
-	return false
-
-func _on_input_component_dir_changed(input_dir: Vector2) -> void:
+func _on_controller_component_dir_changed(input_dir: Vector2) -> void:
 	if current_state == STATE.DEAD:
 		return
 	move_dir = input_dir
 	mov_component.change_dir(input_dir)
 
-func _on_input_component_shoot_pressed() -> void:
-	if _try_shoot():
-		input_component.consume_buffer(input_component.shoot_pressed)
+func _on_controller_component_shoot_pressed() -> void:
+	if current_state == STATE.DEAD:
+		return
+	if current_equipment.current_ammo > 0 and attack_timer.is_stopped() and (current_state == STATE.IDLE or current_state == STATE.RUN):
+		controller_component.consume_buffer(controller_component.shoot_pressed)
+		attack_component.shoot(current_equipment.damage, muzzle.global_position, controller_component.aim_target, current_equipment.projectile_scene)
+		attack_timer.wait_time = current_equipment.attack_cd
+		attack_timer.start()
+		anim_hands.play_anim(current_equipment.get_anim_name("attack"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
+		current_equipment.current_ammo -= 1
+	elif current_equipment.current_ammo == 0 and current_equipment.max_ammo > 0:
+		print("sem munição")
 
-func _on_input_component_shoot_held() -> void:
-	if current_equipment.is_automatic:
-		_try_shoot()
+func _on_controller_component_shoot_held() -> void:
+	if current_state == STATE.DEAD:
+		return
+	if current_equipment.is_automatic and current_equipment.current_ammo > 0 and attack_timer.is_stopped() and (current_state == STATE.IDLE or current_state == STATE.RUN):
+		attack_component.shoot(current_equipment.damage, muzzle.global_position, controller_component.aim_target, current_equipment.projectile_scene)
+		attack_timer.wait_time = current_equipment.attack_cd
+		attack_timer.start()
+		anim_hands.play_anim(current_equipment.get_anim_name("attack"), current_equipment.sprite_frames, current_equipment.sprite_offsets)
+		current_equipment.current_ammo -= 1
 
-func _on_input_component_reload_pressed() -> void:
-	if current_state == STATE.DEAD or _is_hands_busy():
+func _on_controller_component_reload_pressed() -> void:
+	if current_state == STATE.DEAD:
 		return
 	if current_equipment.current_ammo < current_equipment.max_ammo:
-		input_component.consume_buffer(input_component.reload_pressed)
+		controller_component.consume_buffer(controller_component.reload_pressed)
 		anim_hands.play_anim(current_equipment.get_anim_name("reload"), current_equipment.sprite_frames, current_equipment.sprite_offsets, current_equipment.reload_time)
 
-func _on_input_component_interact_pressed() -> void:
+func _on_controller_component_interact_pressed() -> void:
 	if current_state == STATE.DEAD:
 		return
 
@@ -125,6 +119,7 @@ func _on_health_component_dead() -> void:
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if "damage" in area.get_parent():
 		health_component.damage(area.get_parent().damage)
+		controller_component.on_damaged()
 
 func _on_anim_hands_animation_finished() -> void:
 	var finished_action: String = anim_hands.animation.rsplit("_", true, 1)[0]
