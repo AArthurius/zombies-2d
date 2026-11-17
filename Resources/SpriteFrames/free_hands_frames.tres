@@ -1,6 +1,8 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://bfytkbjie5lw1"]
 
+[ext_resource type="Texture2D" uid="uid://defouk03tgmla" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Death/Hands_side-left_death-Sheet6.png" id="1_68h0p"]
 [ext_resource type="Texture2D" uid="uid://buycs4evtpsmt" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Idle/Hands_down_idle-Sheet6.png" id="1_aqipg"]
+[ext_resource type="Texture2D" uid="uid://dfmv8ruhsskgy" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Death/Hands_side_death-Sheet6.png" id="2_66var"]
 [ext_resource type="Texture2D" uid="uid://dkh7stl7x65c2" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Idle/Hands_Side-left_idle-Sheet6.png" id="2_rmqkt"]
 [ext_resource type="Texture2D" uid="uid://du3jidgh2qi3e" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Idle/Hands_Side_idle-Sheet6.png" id="3_68h0p"]
 [ext_resource type="Texture2D" uid="uid://bjxnuibw727xy" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Idle/Hands_Up_idle-Sheet6.png" id="4_66var"]
@@ -8,6 +10,54 @@
 [ext_resource type="Texture2D" uid="uid://beq8sn16khqbf" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Run/Hands_side-left_run-Sheet6.png" id="6_fultm"]
 [ext_resource type="Texture2D" uid="uid://vniu00h41x5d" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Run/Hands_Side_run-Sheet6.png" id="7_qn0gt"]
 [ext_resource type="Texture2D" uid="uid://cilae13sfkahl" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Main/Run/Hands_Up_run-Sheet6.png" id="8_ugqlb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eup80"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(0, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fultm"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(21, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn0gt"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(42, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugqlb"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(63, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0wp2"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(84, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjg3b"]
+atlas = ExtResource("1_68h0p")
+region = Rect2(105, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tti0e"]
+atlas = ExtResource("2_66var")
+region = Rect2(0, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esevg"]
+atlas = ExtResource("2_66var")
+region = Rect2(21, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjm61"]
+atlas = ExtResource("2_66var")
+region = Rect2(42, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_onrhd"]
+atlas = ExtResource("2_66var")
+region = Rect2(63, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxxvk"]
+atlas = ExtResource("2_66var")
+region = Rect2(84, 0, 21, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6b5p"]
+atlas = ExtResource("2_66var")
+region = Rect2(105, 0, 21, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gx0jo"]
 atlas = ExtResource("1_aqipg")
@@ -203,6 +253,52 @@ region = Rect2(65, 0, 13, 17)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eup80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fultm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qn0gt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugqlb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0wp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjg3b")
+}],
+"loop": 0,
+"name": &"die_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tti0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esevg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjm61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_onrhd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxxvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6b5p")
+}],
+"loop": 0,
+"name": &"die_right",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gx0jo")

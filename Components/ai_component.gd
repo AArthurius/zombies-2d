@@ -17,6 +17,8 @@ enum STATE {PATROL, INVESTIGATE, LOOK_FOR_PLAYER, HOSTILE, RETREAT, HEAL}
 @export var hostile_fire_interval: float = 1.2
 @export var retreat_fire_interval: float = 2.0
 
+@onready var vision_pivot: Node2D = $"../VisionPivot"
+
 var player: Node2D
 var current_state: STATE = STATE.PATROL
 var current_target_pos: Vector2
@@ -48,8 +50,15 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if get_parent().current_state == get_parent().STATE.DEAD:
 		dir_changed.emit(Vector2.ZERO)
+		if nav_agent:
+			nav_agent.target_position = get_parent().global_position
 		return
 
+	if vision_pivot:
+		var look_pos: Vector2 = aim_target if current_state in [STATE.HOSTILE, STATE.INVESTIGATE, STATE.LOOK_FOR_PLAYER, STATE.HEAL] else (get_parent().global_position + get_parent().velocity)
+		if get_parent().global_position.distance_squared_to(look_pos) > 1.0:
+			vision_pivot.look_at(look_pos)
+	
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("Player")
 
@@ -94,7 +103,7 @@ func _physics_process(delta: float) -> void:
 				if not is_looking_around and not lfp_points.is_empty():
 					_start_look_around_tween()
 				elif is_looking_around:
-					var base_dir = (player_last_seen_pos - get_parent().global_position).normalized()
+					var base_dir = (get_parent().global_position - player_last_seen_pos).normalized()
 					if base_dir == Vector2.ZERO:
 						base_dir = Vector2.RIGHT
 					var rotated_dir = base_dir.rotated(deg_to_rad(look_angle_offset))
@@ -145,6 +154,7 @@ func _physics_process(delta: float) -> void:
 
 		STATE.HEAL:
 			dir_changed.emit(Vector2.ZERO)
+			aim_target = player_last_seen_pos
 
 			if was_attacked:
 				retreat_distance = get_parent().global_position.distance_to(player.global_position) + 30.0
@@ -160,7 +170,7 @@ func _physics_process(delta: float) -> void:
 			timer += delta
 			if timer >= 1.0:
 				if get_parent().health_component.has_method("heal"):
-					get_parent().health_component.heal(1)
+					get_parent().health_component.heal(10)
 				else:
 					get_parent().health_component.current_health = min(get_parent().health_component.current_health + 1, get_parent().health_component.max_health)
 				timer = 0.0
@@ -192,7 +202,7 @@ func _combat_movement(target_pos: Vector2) -> void:
 
 	var has_obstacle := false
 	if obstacle_raycast:
-		obstacle_raycast.target_position = get_parent().to_local(target_pos)
+		obstacle_raycast.target_position = obstacle_raycast.to_local(target_pos)
 		has_obstacle = obstacle_raycast.is_colliding()
 
 	if has_obstacle:

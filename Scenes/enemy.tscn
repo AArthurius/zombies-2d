@@ -41,8 +41,10 @@ metadata/_custom_type_script = "uid://bbwqbx4hw14c4"
 
 [node name="AnimBody" type="AnimatedSprite2D" parent="." unique_id=21748041]
 sprite_frames = ExtResource("2_auwsv")
-animation = &"idle_right"
+animation = &"die_right"
 autoplay = "idle_down"
+frame = 6
+frame_progress = 1.0
 script = ExtResource("3_8uf12")
 metadata/_custom_type_script = "uid://cqleh27fxjpla"
 
@@ -59,9 +61,9 @@ gizmo_extents = 2.0
 [node name="ControllerComponent" type="Node" parent="." unique_id=72207624 node_paths=PackedStringArray("nav_agent", "good_vision_area", "bad_vision_area", "obstacle_raycast")]
 script = ExtResource("8_haro7")
 nav_agent = NodePath("../NavigationAgent2D")
-good_vision_area = NodePath("../GoodVisionArea")
-bad_vision_area = NodePath("../BadVisionArea")
-obstacle_raycast = NodePath("../ObstacleRayCast")
+good_vision_area = NodePath("../VisionPivot/GoodVisionArea")
+bad_vision_area = NodePath("../VisionPivot/BadVisionArea")
+obstacle_raycast = NodePath("../VisionPivot/ObstacleRayCast")
 metadata/_custom_type_script = "uid://75rdl51cbcph"
 
 [node name="MovComponent" type="Node" parent="." unique_id=1046150137]
@@ -126,25 +128,27 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1951107819]
 shape = SubResource("RectangleShape2D_hgeoe")
 
-[node name="GoodVisionArea" type="Area2D" parent="." unique_id=1827227342]
+[node name="VisionPivot" type="Node2D" parent="." unique_id=1971433817]
+
+[node name="GoodVisionArea" type="Area2D" parent="VisionPivot" unique_id=1827227342]
 collision_layer = 2
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GoodVisionArea" unique_id=974441996]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionPivot/GoodVisionArea" unique_id=974441996]
 position = Vector2(41, 0)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_qsuaf")
 
-[node name="BadVisionArea" type="Area2D" parent="." unique_id=1075485024]
+[node name="BadVisionArea" type="Area2D" parent="VisionPivot" unique_id=1075485024]
 collision_layer = 2
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BadVisionArea" unique_id=919925045]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionPivot/BadVisionArea" unique_id=919925045]
 position = Vector2(53, 0)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_56vhr")
 
-[node name="ObstacleRayCast" type="RayCast2D" parent="." unique_id=1689312514]
+[node name="ObstacleRayCast" type="RayCast2D" parent="VisionPivot" unique_id=1689312514]
 target_position = Vector2(116, 0)
 collision_mask = 16
 

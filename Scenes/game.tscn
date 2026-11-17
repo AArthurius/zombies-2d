@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bgkknrjqlicbb"]
 
-[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://Scenes/Player.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://uf1aa6qqm4wl" path="res://Scenes/player.tscn" id="1_80nbo"]
 [ext_resource type="PackedScene" uid="uid://bmmocy4ae2sxd" path="res://Scenes/enemy.tscn" id="2_qxrlw"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_s1fef"]
@@ -20,11 +20,8 @@ position = Vector2(-9, -58)
 [node name="Enemy" parent="." unique_id=88369761 instance=ExtResource("2_qxrlw")]
 position = Vector2(-102, 50)
 
-[node name="ControllerComponent" parent="Enemy" index="2" unique_id=72207624 node_paths=PackedStringArray("patrol_markers")]
+[node name="ControllerComponent" parent="Enemy" index="3" unique_id=72207624 node_paths=PackedStringArray("patrol_markers")]
 patrol_markers = [NodePath("../../Waypoint 1"), NodePath("../../Waypoint 2")]
-
-[node name="NavigationAgent2D" parent="Enemy" index="8" unique_id=481946603]
-debug_enabled = true
 
 [node name="Waypoint 1" type="Marker2D" parent="." unique_id=1034198781]
 position = Vector2(-106, 37)

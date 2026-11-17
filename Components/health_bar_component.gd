@@ -25,13 +25,16 @@ func change_value(new_value: float) -> void:
 		var remaining: float = max(0.0, _current_duration - health_tween.get_total_elapsed_time())
 		time += remaining
 		health_tween.kill()
-	value = new_value
 	if not sub_health_bar:
-		return
-	# Se curou (novo valor maior que a barra de fundo), sobe a barra de fundo na hora
-	if new_value >= sub_health_bar.value:
-		sub_health_bar.value = new_value
+		value = new_value
 		return
 	_current_duration = time
 	health_tween = create_tween()
-	health_tween.tween_property(sub_health_bar, "value", new_value, time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if new_value > value:
+		# Cura: barra de fundo sobe na hora e a principal desliza até ela
+		sub_health_bar.value = new_value
+		health_tween.tween_property(self, "value", new_value, time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	else:
+		# Dano: barra principal cai na hora e a de fundo desliza até ela
+		value = new_value
+		health_tween.tween_property(sub_health_bar, "value", new_value, time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

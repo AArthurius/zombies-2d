@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dmrc7tcn0cydf" path="res://Assets/Adapted/Gun_side-left_shoot-Sheet.png" id="2_53nav"]
 [ext_resource type="Texture2D" uid="uid://1y3tbisg0pjl" path="res://Assets/Adapted/Gun_side_shoot-Sheet.png" id="3_rhj7b"]
 [ext_resource type="Texture2D" uid="uid://b0xlf5krdsog0" path="res://Assets/Adapted/Gun_up_shoot-Sheet.png" id="4_qfx6k"]
+[ext_resource type="Texture2D" uid="uid://bbnsl23fuesam" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side-left_Death-Sheet6.png" id="5_rkbvr"]
+[ext_resource type="Texture2D" uid="uid://bl1yo2ex2vhm2" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side_Death-Sheet6.png" id="6_l3dsd"]
 [ext_resource type="Texture2D" uid="uid://cj3jrvf5m8pr5" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_down_reload-Sheet8.png" id="9_mlfx4"]
 [ext_resource type="Texture2D" uid="uid://bx3l217w7c2ak" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side-left_Reload-Sheet8.png" id="10_ojdh3"]
 [ext_resource type="Texture2D" uid="uid://scrygcyw3hof" path="res://Assets/PostApocalypse_AssetPack_v1.1.2/Character/Guns/Gun/Gun_side_reload-Sheet8.png" id="11_rkbvr"]
@@ -60,6 +62,54 @@ region = Rect2(5, 0, 5, 23)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ubagd"]
 atlas = ExtResource("4_qfx6k")
 region = Rect2(10, 0, 5, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ig1tc"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(0, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kk48i"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(18, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bql65"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(36, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_viah1"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(54, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yevr"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(72, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h347r"]
+atlas = ExtResource("5_rkbvr")
+region = Rect2(90, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5amwo"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(0, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa27h"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(18, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n42gu"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(36, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5wnb"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(54, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjqd8"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(72, 0, 18, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sk6sm"]
+atlas = ExtResource("6_l3dsd")
+region = Rect2(90, 0, 18, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mktoo"]
 atlas = ExtResource("13_qg7bj")
@@ -341,6 +391,52 @@ animations = [{
 }],
 "loop": 0,
 "name": &"attack_up",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ig1tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kk48i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bql65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_viah1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yevr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h347r")
+}],
+"loop": 0,
+"name": &"die_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5amwo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa27h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n42gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5wnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjqd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sk6sm")
+}],
+"loop": 0,
+"name": &"die_right",
 "speed": 10.0
 }, {
 "frames": [{
